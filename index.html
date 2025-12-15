@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoundMap – Global Music Recommendations</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(120deg, #1e1e2f, #2a2a40);
+      color: #fff;
+    }
+    header {
+      padding: 20px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.3);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+    }
+    header p {
+      margin-top: 8px;
+      opacity: 0.85;
+    }
+    main {
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .recommendation-form {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+    }
+    .recommendation-form h2 {
+      margin-top: 0;
+    }
+    .recommendation-form input, .recommendation-form select, .recommendation-form button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+    }
+    .recommendation-form input, .recommendation-form select {
+      background: #fff;
+      color: #000;
+    }
+    .recommendation-form button {
+      background: #5f6cff;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .recommendation-form button:hover {
+      background: #4a55e0;
+    }
+    .recommendations {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 12px;
+    }
+    .card h3 {
+      margin: 0 0 5px 0;
+    }
+    .card p {
+      margin: 4px 0;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    .card a {
+      display: inline-block;
+      margin-top: 10px;
+      color: #9fa8ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .card a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      opacity: 0.6;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SoundMap 🌍</h1>
+    <p>Discover music recommended by people from all over the world</p>
+  </header>
+
+  <main>
+    <section class="recommendation-form">
+      <h2>Share a Music Recommendation</h2>
+      <input type="text" id="song" placeholder="Song title" />
+      <input type="text" id="artist" placeholder="Artist" />
+      <select id="country">
+        <option value="">Select country</option>
+        <option>Canada</option>
+        <option>United States</option>
+        <option>Brazil</option>
+        <option>United Kingdom</option>
+        <option>France</option>
+        <option>India</option>
+        <option>Japan</option>
+        <option>South Korea</option>
+        <option>Nigeria</option>
+        <option>Australia</option>
+      </select>
+      <input type="url" id="link" placeholder="Music link (Spotify, YouTube, etc.)" />
+      <button onclick="addRecommendation()">Add Recommendation</button>
+    </section>
+
+    <section>
+      <h2>Global Recommendations</h2>
+      <div class="recommendations" id="recommendations"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>SoundMap • Music connects the world</p>
+  </footer>
+
+  <script>
+    const recommendations = [];
+
+    function addRecommendation() {
+      const song = document.getElementById('song').value;
+      const artist = document.getElementById('artist').value;
+      const country = document.getElementById('country').value;
+      const link = document.getElementById('link').value;
+
+      if (!song || !artist || !country || !link) {
+        alert('Please fill out all fields');
+        return;
+      }
+
+      const recommendation = { song, artist, country, link };
+      recommendations.unshift(recommendation);
+
+      document.getElementById('song').value = '';
+      document.getElementById('artist').value = '';
+      document.getElementById('country').value = '';
+      document.getElementById('link').value = '';
+
+      renderRecommendations();
+    }
+
+    function renderRecommendations() {
+      const container = document.getElementById('recommendations');
+      container.innerHTML = '';
+
+      recommendations.forEach(rec => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <h3>${rec.song}</h3>
+          <p><strong>Artist:</strong> ${rec.artist}</p>
+          <p><strong>Country:</strong> ${rec.country}</p>
+          <a href="${rec.link}" target="_blank">Listen 🎧</a>
+        `;
+        container.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>
