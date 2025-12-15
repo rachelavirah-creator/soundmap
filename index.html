@@ -127,14 +127,43 @@
       <h2>Global Recommendations</h2>
       <div class="recommendations" id="recommendations"></div>
     </section>
+
+    <section style="margin-top:40px;">
+      <h2>Explore Music on the World Map 🌍</h2>
+      <div id="map" style="height:400px; border-radius:12px;"></div>
+    </section>
   </main>
 
   <footer>
     <p>SoundMap • Music connects the world</p>
   </footer>
 
+  <!-- Leaflet Map Library -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
   <script>
     const recommendations = [];
+
+    // World map setup
+    const map = L.map('map').setView([20, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    const countryCoordinates = {
+      Canada: [56.1304, -106.3468],
+      'United States': [37.0902, -95.7129],
+      Brazil: [-14.2350, -51.9253],
+      'United Kingdom': [55.3781, -3.4360],
+      France: [46.2276, 2.2137],
+      India: [20.5937, 78.9629],
+      Japan: [36.2048, 138.2529],
+      'South Korea': [35.9078, 127.7669],
+      Nigeria: [9.0820, 8.6753],
+      Australia: [-25.2744, 133.7751]
+    };
+
 
     function addRecommendation() {
       const song = document.getElementById('song').value;
@@ -172,6 +201,12 @@
           <a href="${rec.link}" target="_blank">Listen 🎧</a>
         `;
         container.appendChild(card);
+
+        if (countryCoordinates[rec.country]) {
+          L.marker(countryCoordinates[rec.country])
+            .addTo(map)
+            .bindPopup(`<strong>${rec.song}</strong><br>${rec.artist}<br>${rec.country}`);
+        }
       });
     }
   </script>
